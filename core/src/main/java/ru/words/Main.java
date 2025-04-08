@@ -37,6 +37,7 @@ public class Main extends Game {
         batch = new SpriteBatch();
         camera = new OrthographicCamera();
         camera.setToOrtho(false,SCREEN_WIDTH,SCREEN_HEIGHT);
+
         touch = new Vector3();
         font = new BitmapFont(Gdx.files.internal("stylo90gray.fnt"));
         firstScreen = new first_screen(this);

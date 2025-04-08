@@ -13,6 +13,7 @@ public class just_Screen implements  Screen{
     button btn3;
     button btn4;
     button btn5;
+    button Menu;
 
     Main main;
     public SpriteBatch batch;
@@ -29,11 +30,12 @@ public class just_Screen implements  Screen{
         font = main.font;
 
 
-        btn = new button(font,"second_screen",150,1000);
-        btn2 = new button(font,"first_screen",150,1300);
-        btn3 = new button(font,"third_screen",150,700);
-        btn4 = new button(font,"fourth_screen",150,400);
-        d1 = new Texture("d1.jpg");
+        btn = new button(font,"Settings",300,1100);
+        btn2 = new button(font,"Game",300,1300);
+        btn3 = new button(font,"About",300,900);
+        btn4 = new button(font,"Exit",300,700);
+        d1 = new Texture("bg.jpg");
+        Menu = new button(font,"Menu",150,1300);
 
 
     }
@@ -57,11 +59,12 @@ public class just_Screen implements  Screen{
                 main.setScreen(main.thirdScreen);
             }
             else if(btn4.hit(touch.y,touch.x)){
-                main.setScreen(main.fourthScreen);
+                Gdx.app.exit();
             }
         }
         batch.setProjectionMatrix(camera.combined);
         batch.begin();
+
         batch.draw(d1,0,0,900,1600);
         btn.font.draw(batch,btn.text,btn.x,btn.y);
         btn3.font.draw(batch,btn3.text,btn3.x,btn3.y);

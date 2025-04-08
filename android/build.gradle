@@ -111,7 +111,7 @@ tasks.register('run', Exec) {
     }
     def sdkDir = properties.getProperty('sdk.dir')
     if (sdkDir) {
-      path = sdkDir
+path = sdkDir
     } else {
       path = "$System.env.ANDROID_SDK_ROOT"
     }

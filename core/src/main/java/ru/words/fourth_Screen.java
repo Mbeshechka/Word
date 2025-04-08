@@ -26,7 +26,7 @@ public class fourth_Screen implements  Screen{
         camera = main.camera;
         touch = main.touch;
         font = main.font;
-        btn6 = new button(font,"back",350,800);
+        btn6 = new button(font,"back",0,1600);
         btn = new button(font,"second_screen",150,1000);
         btn2 = new button(font,"first_screen",150,1300);
         btn3 = new button(font,"third_screen",150,700);
