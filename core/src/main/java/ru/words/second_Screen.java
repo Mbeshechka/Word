@@ -8,6 +8,8 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.concurrent.TimeUnit;
+
 
 public class second_Screen implements  Screen{
     button btn;
@@ -17,18 +19,25 @@ public class second_Screen implements  Screen{
     button btn5;
     button btn6;
     Main main;
-    private Texture d11,bk;
+    int x1,y1;
+    private Texture d11,bk,joj;
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
     public BitmapFont font;
     public int volumes;
+    private KeyBoard keyboard;
+
+    BitmapFont font70;
+    String text,alpthabet;
 
     public Music oiia;
     public second_Screen(Main main){
         this.main = main;
         volumes = main.volume;
         oiia = main.cl;
+        text = "A";
+        alpthabet = "QWERTYUIOPASDFGHJKLZXCVBNMqwertyuiopasdfghjklzxcvbnm";
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
@@ -40,6 +49,11 @@ public class second_Screen implements  Screen{
         btn4 = new button(font,"fourth_screen",150,400);
         d11 = new Texture("bg.jpg");
         bk = new Texture("back.png");
+        joj = new Texture("zsz.png");
+
+        font70 = new BitmapFont(Gdx.files.internal("stylo90gray.fnt"));
+        keyboard = new KeyBoard(font70, 900, 900, 9);
+
 
 
     }
@@ -50,21 +64,52 @@ public class second_Screen implements  Screen{
 
     @Override
     public void render(float delta) {
+
         if (Gdx.input.justTouched()){
             touch.set(Gdx.input.getX(),Gdx.input.getY(),0);
             camera.unproject(touch);
             if(touch.y> 1500 && touch.y < 1600 && touch.x > 0 && touch.x < 100){
                 oiia.play();
                 oiia.setVolume(((float)(main.volume/9))/ 100);
+                keyboard.zeroText();
                 main.setScreen(main.justScreen);
             }
         }
         batch.setProjectionMatrix(camera.combined);
+        int yu = 0;
+        keyboard.start();
         batch.begin();
+
+
         batch.draw(d11,0,0,900,1600);
 
 
         batch.draw(bk,0,1500,100,100);
+        keyboard.draw(batch);
+        if (Gdx.input.justTouched()){
+            if (keyboard.touch(touch.x, touch.y)) {
+                text = keyboard.getEnglishText();
+                try {
+                    TimeUnit.SECONDS.sleep(1);
+                } catch (InterruptedException e) {
+
+                }
+                System.out.println(text);
+                if (text.length() != 5){
+                    batch.draw(joj,0,1200,900,100);
+
+                }
+                else{
+                    main.word = text;
+                    oiia.play();
+                    oiia.setVolume(((float)(main.volume/9))/100);
+                    main.setScreen(main.fourthScreen);
+                }
+            }
+        }
+        //joj = new Texture(text.charAt(0)+".png");
+        //batch.draw(joj,100,1200,100,100);
+
 
 
 
@@ -97,8 +142,11 @@ public class second_Screen implements  Screen{
 
     @Override
     public void dispose() {
+        keyboard.dispose();
         d11.dispose();
         bk.dispose();
+        oiia.dispose();
+        batch.dispose();
 
     }
 }

@@ -8,6 +8,10 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class fourth_Screen implements  Screen{
     button btn;
     button btn2;
@@ -16,21 +20,29 @@ public class fourth_Screen implements  Screen{
     button btn5;
     button btn6;
     Main main;
-    private Texture d12,bk,book;
+    private Texture d12,bk,book,box;
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
     public BitmapFont font;
-    String w;
     String img;
     public int volumes;
+    private KeyBoard keyboard;
+    BitmapFont font70;
+    String text,word;
+    int times = 6;
+    public List<String> myList,ifn;
 
     public Music oiia;
     public fourth_Screen(Main main){
         this.main = main;
+        font70 = new BitmapFont(Gdx.files.internal("stylo90gray.fnt"));
+        keyboard = new KeyBoard(font70, 900, 900, 9);
         volumes = main.volume;
-        w = main.word;
         oiia = main.cl;
+        myList = new ArrayList<>();
+        word = main.word;
+        text = main.word;
         batch = main.batch;
         camera = main.camera;
         touch = main.touch;
@@ -41,6 +53,7 @@ public class fourth_Screen implements  Screen{
         btn3 = new button(font,"third_screen",150,700);
         btn4 = new button(font,"fourth_screen",150,400);
         d12 = new Texture("bg.jpg");
+        box = new Texture("box.png");
         bk = new Texture("back.png");
 
 
@@ -58,20 +71,73 @@ public class fourth_Screen implements  Screen{
             if(touch.y> 1500 && touch.y < 1600 && touch.x > 0 && touch.x < 100){
                 oiia.play();
                 oiia.setVolume(((float)(main.volume)/9)/ 100);
+                myList = ifn;
+                times = 6;
                 main.setScreen(main.justScreen);
             }
 
         }
         batch.setProjectionMatrix(camera.combined);
+        keyboard.start();
         batch.begin();
+
         batch.draw(d12,0,0,900,1600);
 
         batch.draw(bk,0,1500,100,100);
+        keyboard.draw(batch);
+        if  (Gdx.input.justTouched()){
+            if (keyboard.touch(touch.x, touch.y)){
+                text = keyboard.getEnglishText().toUpperCase();
+                keyboard.zeroText();
+                times -= 1;
+                myList.add(text);
 
-        for (int i = 0; i < 5; i++) {
-            img = w.charAt(i) + ".png";
-            book = new Texture(img);
-            batch.draw(book,100 * (i+1) ,1300,100,100);
+            }
+        }
+
+
+
+        if (myList != ifn){
+            for (int i = 0; i < myList.size(); i++) {
+                for (int j = 0; j < 5; j++) {
+                    if (myList.get(i).charAt(j) == main.word.charAt(j)){
+                        img = "green.png";
+                        book = new Texture(img);
+                        batch.draw(book,200 + 100 * j,1400 - 100 * (i),100,100);
+
+                    } else {
+                        if(main.word.contains(String.valueOf(myList.get(i).charAt(j)))){
+                            img = "yellow.png";
+                            book = new Texture(img);
+                            batch.draw(book,200 + 100 * j,1400 - 100 * (i),100,100);
+                        }
+                        else{
+                            img = "gray.png";
+                            book = new Texture(img);
+                            batch.draw(book,200 + 100 * j,1400 - 100 * (i),100,100);
+                        }
+                    }
+
+                               }
+            }
+            for (int i = myList.size(); i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    batch.draw(box,200 + 100 * j,1400 - 100 * (i),100,100);            }
+            }
+            for (int i = 0; i < myList.size(); i++) {
+                for (int j = 0; j < 5; j++) {
+                    img = myList.get(i).charAt(j) + ".png";
+                    book = new Texture(img);
+                    batch.draw(book,200 + 100 * j ,1400 - (100 * i),100,100);
+
+                }
+            }
+        }
+        else{
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 5; j++) {
+                    batch.draw(box,200 + 100 * j,900 + 100 * i,100,100);            }
+            }
         }
 
 
@@ -104,9 +170,13 @@ public class fourth_Screen implements  Screen{
 
     @Override
     public void dispose() {
+        keyboard.dispose();
         d12.dispose();
         bk.dispose();
         book.dispose();
+        oiia.dispose();
+        batch.dispose();
+        box.dispose();
 
     }
 }

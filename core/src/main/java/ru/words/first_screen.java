@@ -24,10 +24,11 @@ public class first_screen implements  Screen{
     public BitmapFont font;
     public int x1,y1;
 
-    public Music oiia;
+    public Music oiia,kn4;
     public first_screen(Main main){
 
         this.main = main;
+        kn4 = Gdx.audio.newMusic(Gdx.files.internal("kn4.mp3"));
         oiia = main.cl;
         batch = main.batch;
         camera = main.camera;
@@ -46,7 +47,7 @@ public class first_screen implements  Screen{
 
         muz = new Texture("muz.png");
         mus = new Texture("beg.png");
-        ny = new Texture("nad.png");
+        ny = new Texture("nad2.png");
 
 
 
@@ -69,15 +70,16 @@ public class first_screen implements  Screen{
                 main.setScreen(main.justScreen);
             }
             if (touch.y > 1300 && touch.y < 1400 && touch.x > 800 && touch.x < 900){
-                oiia.play();
-                oiia.setVolume(((float)(main.volume/9))/ 100);
+
+                kn4.play();
+                kn4.setVolume(((float)(main.volume/9))/ 100);
                 main.random_word = !main.random_word;
             }
             if (touch.y > 950 && touch.y < 1050 ){
                 main.volume = (int) touch.x;
                 y1 = (int) touch.y;
-                oiia.play();
-                oiia.setVolume(((float)(main.volume/9))/ 100);
+                kn4.play();
+                kn4.setVolume(((float)(main.volume/9))/ 100);
             }
         }
         batch.setProjectionMatrix(camera.combined);
@@ -150,6 +152,8 @@ public class first_screen implements  Screen{
         c2.dispose();
         mus.dispose();
         muz.dispose();
+        oiia.dispose();
+        batch.dispose();
 
     }
 }

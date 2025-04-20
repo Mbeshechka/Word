@@ -16,7 +16,7 @@ public class third_Screen implements  Screen{
     button btn5;
     button btn6;
     Main main;
-    private Texture d1,bk;
+    private Texture d1,bk,ab;
     public SpriteBatch batch;
     public OrthographicCamera camera;
     public Vector3 touch;
@@ -39,6 +39,7 @@ public class third_Screen implements  Screen{
         btn4 = new button(font,"fourth_screen",150,400);
         d1 = new Texture("bg.jpg");
         bk = new Texture("back.png");
+        ab = new Texture("about.png");
 
 
     }
@@ -63,6 +64,7 @@ public class third_Screen implements  Screen{
         batch.draw(d1,0,0,900,1600);
 
         batch.draw(bk,0,1500,100,100);
+        batch.draw(ab,0,0,900,1400);
 
 
 
@@ -96,6 +98,8 @@ public class third_Screen implements  Screen{
     public void dispose() {
         d1.dispose();
         bk.dispose();
+        oiia.dispose();
+        batch.dispose();
 
     }
 }

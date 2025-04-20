@@ -19,6 +19,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -46,7 +47,7 @@ public class Main extends Game {
     LeaderBoard led;
     public int whichSc,volume;
     public String word;
-    public List myList;
+    public List<String> myList;
     public Music cl;
 
 
@@ -56,25 +57,26 @@ public class Main extends Game {
 
     @Override
     public void create() {
-        cl = Gdx.audio.newMusic(Gdx.files.internal("kn.mp3"));
-        myList = new ArrayList();
+
+        cl = Gdx.audio.newMusic(Gdx.files.internal("kn3.wav"));
+        myList = new ArrayList<>();
         List<String> fileStrings = new ArrayList<>();
-
-        try{
-            fileStrings = Files.lines(Paths.get("C:\\ansd\\Words\\assets\\sl.txt")).collect(Collectors.toList());
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-
-         for (int i = 0; i < fileStrings.size(); i++) {
-            if ((fileStrings.get(i)).length() == 5 && !fileStrings.get(i).contains(String.valueOf("'"))&& !fileStrings.get(i).contains(String.valueOf('.')) && !fileStrings.get(i).contains(String.valueOf('-')) && !fileStrings.get(i).contains(String.valueOf(','))  && fileStrings.get(i).charAt(0) == fileStrings.get(i).toLowerCase().charAt(0)) {
-                myList.add(fileStrings.get(i).toUpperCase());
-
+        String fileString = Gdx.files.internal("sl.txt").readString();
+        String[] Arr;
+        Arr = fileString.split("\n");
+        for (int i = 0; i < Arr.length; i++) {
+            if (Arr[i].length() == 5 && !Arr[i].contains("'")&& !Arr[i].contains(".") && !Arr[i].contains("-") && !Arr[i].contains(",")  && Arr[i].charAt(0) == Arr[i].toLowerCase().charAt(0)) {
+                myList.add(Arr[i].toUpperCase());
             }
         }
-        Collections.shuffle(myList);
 
-        word = String.valueOf(myList.get(0));
+
+
+
+
+        Collections.shuffle(myList);
+        //System.out.println(myList);
+        word = myList.get(0);
 
 
         System.out.println(word);
@@ -103,6 +105,7 @@ public class Main extends Game {
     public void dispose() {
         batch.dispose();
         font.dispose();
+        cl.dispose();
 
     }
 }

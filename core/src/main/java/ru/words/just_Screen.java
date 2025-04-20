@@ -146,6 +146,8 @@ public class just_Screen implements  Screen{
         inf.dispose();
         sett.dispose();
         pl.dispose();
+        oiia.dispose();
+        batch.dispose();
 
     }
 }

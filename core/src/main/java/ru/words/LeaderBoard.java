@@ -96,6 +96,8 @@ public class LeaderBoard implements  Screen{
     public void dispose() {
         d12.dispose();
         bk.dispose();
+        oiia.dispose();
+        batch.dispose();
 
     }
 }
