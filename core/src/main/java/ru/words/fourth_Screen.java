@@ -36,6 +36,7 @@ public class fourth_Screen implements  Screen{
     public Music oiia;
     public fourth_Screen(Main main){
         this.main = main;
+        
         font70 = new BitmapFont(Gdx.files.internal("stylo90gray.fnt"));
         keyboard = new KeyBoard(font70, 900, 900, 9);
         volumes = main.volume;
